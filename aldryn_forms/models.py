@@ -173,7 +173,7 @@ class BaseFormPlugin(CMSPlugin):
         on_delete=models.SET_NULL,
     )
 
-    cmsplugin_ptr = CMSPluginField()
+    cmsplugin_ptr = CMSPluginField(on_delete=models.CASCADE)
 
     class Meta:
         abstract = True
@@ -340,7 +340,7 @@ class FieldsetPlugin(CMSPlugin):
     legend = models.CharField(_('Legend'), max_length=255, blank=True)
     custom_classes = models.CharField(
         verbose_name=_('custom css classes'), max_length=255, blank=True)
-    cmsplugin_ptr = CMSPluginField()
+    cmsplugin_ptr = CMSPluginField(on_delete=models.CASCADE)
 
     def __str__(self):
         return self.legend or text_type(self.pk)
@@ -405,7 +405,7 @@ class FieldPluginBase(CMSPlugin):
 
     custom_classes = models.CharField(
         verbose_name=_('custom css classes'), max_length=255, blank=True)
-    cmsplugin_ptr = CMSPluginField()
+    cmsplugin_ptr = CMSPluginField(on_delete=models.CASCADE)
 
     class Meta:
         abstract = True
@@ -468,6 +468,7 @@ class EmailFieldPlugin(FieldPluginBase):
 
 class FileFieldPluginBase(FieldPluginBase):
     upload_to = FilerFolderField(
+        on_delete=models.CASCADE,
         verbose_name=_('Upload files to'),
         help_text=_('Select a folder to which all files submitted through '
                     'this field will be uploaded to.')
@@ -502,7 +503,7 @@ class ImageUploadFieldPlugin(FileFieldPluginBase):
 
 @python_2_unicode_compatible
 class Option(models.Model):
-    field = models.ForeignKey(FieldPlugin, editable=False)
+    field = models.ForeignKey(FieldPlugin, editable=False, on_delete=models.CASCADE)
     value = models.CharField(_('Value'), max_length=255)
     default_value = models.BooleanField(_('Default'), default=False)
     position = models.PositiveIntegerField(_('Position'), blank=True)
@@ -531,7 +532,7 @@ class FormButtonPlugin(CMSPlugin):
     label = models.CharField(_('Label'), max_length=255)
     custom_classes = models.CharField(
         verbose_name=_('custom css classes'), max_length=255, blank=True)
-    cmsplugin_ptr = CMSPluginField()
+    cmsplugin_ptr = CMSPluginField(on_delete=models.CASCADE)
 
     def __str__(self):
         return self.label

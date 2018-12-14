@@ -80,6 +80,7 @@ class EmailNotification(models.Model):
     )
     to_user = models.ForeignKey(
         to=getattr(settings, 'AUTH_USER_MODEL', 'auth.User'),
+        on_delete=models.CASCADE,
         verbose_name=_('to user'),
         blank=True,
         null=True,
@@ -112,6 +113,7 @@ class EmailNotification(models.Model):
     )
     form = models.ForeignKey(
         to=EmailNotificationFormPlugin,
+        on_delete=models.CASCADE,
         related_name='email_notifications'
     )
 
